@@ -15,11 +15,24 @@ This is a React + Viem playground application for signing EIP-712 typed data per
 
 This project is configured for GitHub Pages deployment:
 
-1. **Automatic Deployment**: Pushes to `main` branch automatically deploy via GitHub Actions
-2. **Manual Setup** (one-time):
-   - Go to repository Settings → Pages
-   - Set Source to "GitHub Actions"
-3. **Live URL**: https://0xTH0R.github.io/react-viem-permit-signer-playground/
+### Manual Deployment (Recommended)
+```bash
+./deploy.sh
+```
+
+This script builds the project and pushes to the `gh-pages` branch.
+
+**One-time setup:**
+- Go to repository Settings → Pages
+- Set Source to "Deploy from a branch"
+- Select branch: `gh-pages` and folder: `/ (root)`
+
+### Automatic Deployment via GitHub Actions
+If you have GitHub Actions enabled (requires billing):
+- Pushes to `main` branch automatically deploy
+- Set Source to "GitHub Actions" in Settings → Pages
+
+**Live URL**: https://0xTH0R.github.io/react-viem-permit-signer-playground/
 
 The base path is configured in `vite.config.ts` to match the repository name.
 
