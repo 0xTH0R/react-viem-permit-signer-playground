@@ -25,42 +25,7 @@ const walletClient = createWalletClient({
 function Example() {
   const [account, setAccount] = useState<Address>();
   const [signature, setSignature] = useState<Hash>();
-  const [permitData, setPermitData] = useState<string>(`{
-  "domain": {
-    "name": "Uniswap V3 Positions NFT-V1",
-    "version": "1",
-    "chainId": 42161,
-    "verifyingContract": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
-  },
-  "primaryType": "Permit",
-  "account": "0xfff0BF131DAEa9bA4e97829D2d3043aaef3213ff",
-  "types": {
-    "Permit": [
-      {
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "name": "nonce",
-        "type": "uint256"
-      },
-      {
-        "name": "deadline",
-        "type": "uint256"
-      }
-    ]
-  },
-  "message": {
-    "spender": "0x6da568570aF87ADFfb0737a5AC1E1ab6Ae52c5E1",
-    "tokenId": "4910608",
-    "nonce": "0",
-    "deadline": 1758603094
-  }
-}`);
+  const [permitData, setPermitData] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   const connect = async () => {
@@ -80,11 +45,17 @@ function Example() {
       // Parse the JSON permit data
       const parsedData = JSON.parse(permitData);
 
+      // Handle both 'message' and 'values' keys - normalize to 'message'
+      let messageData = parsedData.message;
+      if (!messageData && parsedData.values) {
+        messageData = parsedData.values;
+      }
+
       // Validate required fields
       if (
         !parsedData.domain ||
         !parsedData.types ||
-        !parsedData.message ||
+        !messageData ||
         !parsedData.primaryType
       ) {
         throw new Error('Invalid permit data structure');
@@ -95,7 +66,7 @@ function Example() {
         domain: parsedData.domain,
         types: parsedData.types,
         primaryType: parsedData.primaryType,
-        message: parsedData.message,
+        message: messageData,
       });
 
       setSignature(signature);
