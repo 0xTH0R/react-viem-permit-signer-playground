@@ -38,6 +38,13 @@ function Example() {
     }
   };
 
+  const disconnect = () => {
+    setAccount(undefined);
+    setSignature(undefined);
+    setPermitData('');
+    setError('');
+  };
+
   const signTypedData = async () => {
     if (!account) return;
 
@@ -94,18 +101,28 @@ function Example() {
 
             {/* Connected Account */}
             <div className="px-6 py-4 bg-green-50 border-b border-green-200">
-              <div className="flex items-center space-x-2 mb-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-green-800 font-medium">Connected:</span>
-                <span className="font-mono text-green-700 bg-green-100 px-2 py-1 rounded text-sm">
-                  {account}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2 ml-5">
-                <span className="text-green-800 font-medium">Chain:</span>
-                <span className="text-green-700 bg-green-100 px-2 py-1 rounded text-sm">
-                  {walletClient.chain.name} (ID: {walletClient.chain.id})
-                </span>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span className="text-green-800 font-medium">Connected:</span>
+                    <span className="font-mono text-green-700 bg-green-100 px-2 py-1 rounded text-sm">
+                      {account}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2 ml-5">
+                    <span className="text-green-800 font-medium">Chain:</span>
+                    <span className="text-green-700 bg-green-100 px-2 py-1 rounded text-sm">
+                      {walletClient.chain.name} (ID: {walletClient.chain.id})
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={disconnect}
+                  className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                >
+                  Disconnect
+                </button>
               </div>
             </div>
 
